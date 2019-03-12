@@ -104,13 +104,30 @@ int traverse_post_order(Bst bst, int *elements, int start){
 }
 
 bool are_equal(Bst bst1, Bst bst2){
-  return true;
+  if((get_depth(bst1)==get_depth(bst2)))
+  {
+    if(bst1==bst2)
+    {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 void most_left_longest_branch(Bst bst, Bst* branch){
-
+  if(bst == 0)
+  {
+    return;
+  }
+  add(branch, bst->value);
+  get_depth(bst->left) >= get_depth(bst->right) ? most_left_longest_branch(bst->left, branch):most_left_longest_branch(bst->right, branch);
 }
 
 int get_number_of_subtrees(Bst bst){
-  return 0;
+  if(bst == 0)
+  {
+    return -1;
+  } 
+  return get_number_of_subtrees(bst->left) +1+ get_number_of_subtrees(bst->right)+1;
 }
