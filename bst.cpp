@@ -92,27 +92,66 @@ Bst right_subtree(Bst root){
 }
 
 int traverse_pre_order(Bst bst, int *elements, int start){
-  return 0;
+  if(bst != 0)
+  {
+    elements[start] = bst->value;
+    if(get_depth(bst) > 0)
+    {
+       start+=1;
+       start = traverse_pre_order(bst->left, elements, start);
+       start = traverse_pre_order(bst->right, elements, start);
+    }
+  }
+  return start;
 }
 
 int traverse_in_order(Bst bst, int *elements, int start){
-  return 0;
+  if(bst != 0)
+  {
+    if(bst->left != 0)
+    {
+      start = traverse_in_order(bst->left, elements, start);
+    }
+    elements[start] = bst->value;
+    start+=1;
+    if(bst->right != 0)
+    {
+      start = traverse_in_order(bst->right, elements, start);
+    }
+  }
+   return start;
 }
 
 int traverse_post_order(Bst bst, int *elements, int start){
-  return 0;
+  if(bst != 0)
+  {
+      if(bst->left != 0)
+      {
+        start = traverse_post_order(bst->left, elements, start);
+      }
+      if(bst->right != 0)
+      {
+        start = traverse_post_order(bst->right, elements, start);
+      }
+      elements[start] = bst->value;
+      start+=1;
+  }
+   return start;
 }
 
 bool are_equal(Bst bst1, Bst bst2){
-  if((get_depth(bst1)==get_depth(bst2)))
+  if(bst1 == 0)
   {
-    if(bst1==bst2)
-    {
-      return true;
-    }
+    return bst2 == 0;
   }
-
-  return false;
+  else if(get_depth(bst1) == get_depth(bst2))
+  {
+      if(bst1->value == bst2->value)
+      {
+        return are_equal(bst1->left, bst2->left) && are_equal(bst1->right, bst2->right);
+      }
+  }
+    return false;
 }
 
 void most_left_longest_branch(Bst bst, Bst* branch){
@@ -128,6 +167,6 @@ int get_number_of_subtrees(Bst bst){
   if(bst == 0)
   {
     return -1;
-  } 
+  }
   return get_number_of_subtrees(bst->left) +1+ get_number_of_subtrees(bst->right)+1;
 }
